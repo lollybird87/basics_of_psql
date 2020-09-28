@@ -1,0 +1,125 @@
+drop TABLE IF EXISTS workers;
+
+create table workers
+(
+	id serial not null primary key,
+	name varchar(64) not null,
+	age numeric (3,0)  not null
+			check (age >= 18),
+    salary numeric (10, 2) not null check(salary >= 0)
+);
+
+--Выбрать работника с id = 3.
+select * from workers
+where id = 7;
+
+-- Выбрать работников с зарплатой 1000$.
+select * from workers
+where salary = 1000;
+
+-- Выбрать работников в возрасте 23 года.
+select * from workers
+where age > 23;
+
+-- Выбрать работников с зарплатой более 400$.
+select * from workers
+where salary  > 400;
+
+--Выбрать работников с зарплатой равной или большей 500$.
+select * from workers
+where salary  >= 500;
+
+--Выбрать работников с зарплатой НЕ равной 500$.
+select * from workers
+where salary !=  500;
+
+-- Выбрать работников с зарплатой равной или меньшей 900$.
+select * from workers
+where salary  <=  900;
+
+-- Узнайте зарплату и возраст Васи.
+select * from workers
+where name = 'Vasya' ;
+
+--Выбрать работников в возрасте от 25 (не включительно) до 28 лет (включительно).
+select * from workers
+where age BETWEEN  26 AND  28;
+
+-- Выбрать работника Петю.
+select * from workers
+where name ='Petya' ;
+
+-- Выбрать работников Петю и Васю.
+select * from workers
+where name ='Petya' or name ='Vasya' ;
+
+-- Выбрать всех, кроме работника Петя.
+select * from workers
+where name != 'Petya' ;
+
+-- Выбрать всех работников в возрасте 27 лет или с зарплатой 1000$.
+select * from workers
+where age = 27 OR salary = 1000;
+
+-- Выбрать всех работников в возрасте от 23 лет (включительно) до 27 лет (не включительно) или с зарплатой 1000$.
+select * from workers
+where age >= 23 AND age < 27 OR salary =1000;
+
+-- Выбрать всех работников в возрасте от 23 лет до 27 лет или с зарплатой от 400$ до 1000$.
+select * from workers
+where age BETWEEN 23 AND 27 OR salary BETWEEN 400 AND 1000;
+
+-- Выбрать всех работников в возрасте 27 лет или с зарплатой не равной 400$.
+select * from workers
+where age = 23 OR salary !=400;
+
+--Задачи на INSERT
+--Добавьте нового работника Никиту, 26 лет, зарплата 300$. Воспользуйтесь первым синтаксисом.
+INSERT INTO workers  VALUES (DEFAULT,'Nikita', '27', '300');
+
+-- Добавьте нового работника Светлану с зарплатой 1200$. Воспользуйтесь вторым синтаксисом.
+INSERT INTO workers (name, salary, age)
+ VALUES ('Svetlana', '1200', 30);
+
+-- Добавьте двух новых работников одним запросом: Ярослава с зарплатой 1200$ и возрастом 30, Петра с зарплатой 1000$ и возрастом 31.
+INSERT INTO workers  VALUES (DEFAULT, 'Yaroslav', '30', '1200'),
+ (DEFAULT, 'Petr', '31', '1000');
+
+
+--Задачи на DELETE
+-- Удалите работника с id=7.
+DELETE FROM workers WHERE "id" = '7';
+
+-- Удалите Колю.
+DELETE FROM workers WHERE "name" = 'Kolya';
+
+-- Удалите всех работников, у которых возраст 23 года.
+DELETE FROM workers WHERE "age" = '23';
+
+
+
+--Задачи на UPDATE
+-- Поставьте Васе зарплату в 200$.
+UPDATE workers
+SET "salary" = '200'
+WHERE "name" ='Vasya';
+
+-- Работнику с id=4 поставьте возраст 35 лет.
+UPDATE workers
+SET "age" = '35'
+WHERE "id" ='4';
+
+-- Всем, у кого зарплата 500$ сделайте ее 700$.
+UPDATE workers
+SET "salary" = '700'
+WHERE "salary" ='500';
+
+-- Работникам с id больше 2 и меньше 5 включительно поставьте возраст 23.
+UPDATE workers
+SET "age" = '23';
+WHERE "id" >='2' AND "id" <='5';
+
+-- Поменяйте Васю на Женю и прибавьте ему зарплату до 900$.
+UPDATE workers
+SET "name" = 'Jenya' AND "salary" = '900'
+WHERE "name" ='Vasya';
